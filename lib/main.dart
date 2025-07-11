@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'package:provider/provider.dart';
 
 void main() {
@@ -15,6 +16,7 @@ class MyApp extends StatelessWidget {
       title: 'Provider Demo',
       
       theme: ThemeData(
+        primarySwatch: Colors.blue,
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
       home: MultiProvider(providers: [
@@ -23,9 +25,12 @@ class MyApp extends StatelessWidget {
       ],
       child: DefaultTabController(
         length: 3,
+        child: DefaultTabController(
+        length: 3,
         child: Scaffold(
           appBar: AppBar(
             title: const Text('Provider Demo'),
+            centerTitle: true,
             backgroundColor: Colors.blue,
             bottom: const TabBar(
               tabs: <Widget>[
@@ -45,7 +50,9 @@ class MyApp extends StatelessWidget {
         ),
       ),
       ), 
+
       
+      ),
       debugShowCheckedModeBanner: false,
     );
   }
@@ -56,29 +63,50 @@ class MyCountPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    CountProvider _state = Provider.of<CountProvider>(context);
+    CountProvider state = Provider.of<CountProvider>(context);
     return Scaffold(
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text('Change Notifier Example', style: TextStyle(fontSize: 24)),
-            SizedBox(height: 20),
-            Text('${_state.counterValue}', style: Theme.of(context).textTheme.displayMedium),
+            SizedBox(height: 50),
+            Text('${state.counterValue}', 
+            style: Theme.of(context).textTheme.headlineMedium),
             OverflowBar(
               alignment: MainAxisAlignment.center,
               children: <Widget>[
                 IconButton(
                   icon: const Icon(Icons.remove),
                   color: Colors.red,
-                  onPressed: () => _state._decrementCount(),                 
+                  onPressed: () {
+                    state._decrementCount();  
+
+                    if (state.counterValue < 0) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text('Count cannot be negative!'),
+                          duration: Duration(seconds: 2),
+                        ),
+                      );
+                    }
+                  },                 
                 ),
                 Consumer<CountProvider>(
                   builder: (context, value, child) {
                     return IconButton(
                   icon: const Icon(Icons.add),
                   color: Colors.green,
-                  onPressed: () => _state._incrementCount(),
+                  onPressed: () {
+                    
+                    value._incrementCount();
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text('Count incremented!'),
+                        duration: Duration(seconds: 2),
+                      ),
+                    );
+                  },
                   
                 );
                   },
@@ -95,18 +123,18 @@ class MyCountPage extends StatelessWidget {
 }
 
 class CountProvider extends ChangeNotifier {
-  int _count = 0;
+  int count = 0;
 
-  int get counterValue => _count;
+  int get counterValue => count;
 
   void _incrementCount() {
-    _count++;
+    count++;
     notifyListeners();
   }
 
   void _decrementCount() {
-    if (_count > 0) {
-      _count--;
+    if (count > 0) {
+      count--;
       notifyListeners();
     }
   }
