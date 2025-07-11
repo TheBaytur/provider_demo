@@ -13,6 +13,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Provider Demo',
+      color: Colors.deepPurple,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
@@ -68,13 +69,14 @@ class MyCountPage extends StatelessWidget {
               children: <Widget>[
                 IconButton(
                   icon: const Icon(Icons.remove),
-                  onPressed: () => _state._decrementCount(),
-                  
+                  color: Colors.red,
+                  onPressed: () => _state._decrementCount(),                 
                 ),
                 Consumer<CountProvider>(
-                  builder: (context, state, child) {
+                  builder: (context, value, child) {
                     return IconButton(
                   icon: const Icon(Icons.add),
+                  color: Colors.green,
                   onPressed: () => _state._incrementCount(),
                   
                 );
