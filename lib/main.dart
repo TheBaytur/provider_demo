@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Provider Demo',
-      color: Colors.deepPurple,
+      
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
@@ -26,6 +26,7 @@ class MyApp extends StatelessWidget {
         child: Scaffold(
           appBar: AppBar(
             title: const Text('Provider Demo'),
+            backgroundColor: Colors.blue,
             bottom: const TabBar(
               tabs: <Widget>[
                 Tab(icon: Icon(Icons.add)),
