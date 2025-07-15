@@ -171,9 +171,36 @@ class MyEventPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Text('Event Page', style: TextStyle(fontSize: 24)),
+    return Container(
+      child: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Text('Event Stream Example', style: TextStyle(fontSize: 24)),
+            SizedBox(height: 20),
+            StreamBuilder<int>(
+              stream: EventProvider().intStream(),
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  return Text('Current Count: ${snapshot.data}', 
+                  style: Theme.of(context).textTheme.headlineMedium);
+                } else if (snapshot.hasError) {
+                  return Text('Error: ${snapshot.error}');
+                }
+                return CircularProgressIndicator();
+              },
+            ),
+          ],
+        )
+      ),
     );
+  }
+}
+
+class EventProvider {
+  Stream<int> intStream() {
+    Duration interval = Duration(seconds: 1);
+    return Stream<int>.periodic(interval, (count) => count++);
   }
 }
 
