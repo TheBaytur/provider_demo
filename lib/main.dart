@@ -25,9 +25,9 @@ class MyApp extends StatelessWidget {
       home: MultiProvider(providers: [
         ChangeNotifierProvider<CountProvider>.value(value: CountProvider()),
         
-        FutureProvider(initialData: null, create:  (_) async => 
+        FutureProvider(initialData: 0, create:  (_) async => 
         UserProvider().loadUserData(), ),
-        
+        StreamProvider(initialData: 0, create: (_) => EventProvider().intStream()),
       ],
       child: DefaultTabController(
         length: 3,
@@ -171,6 +171,7 @@ class MyEventPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var value = Provider.of<int>(context);
     return Container(
       child: Center(
         child: Column(
