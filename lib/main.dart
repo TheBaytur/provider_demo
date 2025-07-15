@@ -24,10 +24,10 @@ class MyApp extends StatelessWidget {
       ),
       home: MultiProvider(providers: [
         ChangeNotifierProvider<CountProvider>.value(value: CountProvider()),
-        // Add other providers here if needed
-        FutureProvider(create: (_) async => 
-        UserProvider().loadUserData(),
-        initialData: [],),
+        
+        FutureProvider(initialData: null, create:  (_) async => 
+        UserProvider().loadUserData(), ),
+        
       ],
       child: DefaultTabController(
         length: 3,
@@ -144,7 +144,7 @@ class MyUserPage extends StatelessWidget {
           builder: (context, users, _) {
             return Expanded(
               child: users == null
-              ? Center(child: CircularProgressIndicator())
+              ? Center(child: Center(child: CircularProgressIndicator()))
               : ListView.builder(
                 itemCount: users.length,
                 itemBuilder: (context, index) {
