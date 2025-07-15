@@ -35,7 +35,7 @@ class MyApp extends StatelessWidget {
         length: 3,
         child: Scaffold(
           appBar: AppBar(
-            title: const Text('Provider Demo'),
+            title: const Text('Provider Demo app'),
             centerTitle: true,
             backgroundColor: Colors.blue,
             bottom: const TabBar(
